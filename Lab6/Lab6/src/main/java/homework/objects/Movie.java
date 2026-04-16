@@ -1,6 +1,7 @@
 package homework.objects;
 
 import homework.dao.MovieDAO;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ import java.util.List;
 
 
 @Getter
+@AllArgsConstructor
 public class Movie {
     private int id;
     private String title;

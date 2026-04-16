@@ -30,7 +30,7 @@ public class Main {
 
             MovieImporter metadataImporter = new MovieImporter();
             System.out.println("Importing movie metadata...");
-            metadataImporter.importMovies("src/main/resources/data/movies_metadata.csv");
+            metadataImporter.importMovies("src/main/resources/data/movies.csv");
 
 
             CreditsImporter creditsImporter = new CreditsImporter();

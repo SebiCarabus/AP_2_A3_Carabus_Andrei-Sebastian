@@ -3,6 +3,7 @@ package advanced.dao;
 import advanced.database.Database;
 import advanced.objects.Genre;
 
+
 import java.sql.*;
 
 public class GenreDAO {
@@ -43,6 +44,26 @@ public class GenreDAO {
             preparedStatement.setInt(1,id);
             ResultSet result = preparedStatement.executeQuery();
             return result.next() ? new Genre(result.getInt(1),result.getString(2)) : null;
+        }
+    }
+
+    public Genre getMovieGenreById(int movieId) throws SQLException{
+        try(Connection connection = advanced.database.Database.getInstance().getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("SELECT g.id,g.name FROM genres g JOIN movies_genres mg ON mg.genre_id=g.id WHERE mg.movie_id=?")){
+            preparedStatement.setInt(1,movieId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next() ? new Genre(resultSet.getInt(1),resultSet.getString(2)) : null;
+        }
+    }
+
+    public Genre getMovieGenreByTitle(String movieTitle) throws SQLException{
+        try(Connection connection = advanced.database.Database.getInstance().getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("SELECT g.id,g.name FROM genres g JOIN movies_genres mg ON mg.genre_id=g.id JOIN movies m ON mg.movie_id=m.id WHERE m.title LIKE ?")){
+            preparedStatement.setString(1,movieTitle);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next() ? new Genre(resultSet.getInt(1),resultSet.getString(2)) : null;
         }
     }
 }

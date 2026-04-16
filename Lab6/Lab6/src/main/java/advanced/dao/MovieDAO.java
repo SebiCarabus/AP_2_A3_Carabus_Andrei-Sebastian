@@ -2,6 +2,7 @@ package advanced.dao;
 
 import advanced.database.Database;
 import advanced.objects.Actor;
+
 import advanced.objects.Genre;
 import advanced.objects.Movie;
 
@@ -30,11 +31,16 @@ public class MovieDAO {
             if(result.next()){
                 int id=result.getInt(1);
                 String title=result.getString(2);
-                var release_date=result.getDate(3);
+                var releaseDate=result.getDate(3);
                 int duration=result.getInt(4);
                 float score=result.getFloat(5);
-
-                return new Movie(id,title,release_date,duration,score);
+                List<Actor> actors=new ArrayList<Actor>();
+                ActorDAO actorDAO = new ActorDAO();
+                actors=actorDAO.getMovieActorsById(result.getInt(1));
+                Genre genre = null;
+                GenreDAO genreDAO = new GenreDAO();
+                genre = genreDAO.getMovieGenreById(result.getInt(1));
+                return new Movie(id,title,releaseDate,duration,score,genre,actors);
             }
             return null;
         }
@@ -51,8 +57,13 @@ public class MovieDAO {
                 var releaseDate=result.getDate(3);
                 int duration=result.getInt(4);
                 float score=result.getFloat(5);
-
-                return new Movie(id,title,releaseDate,duration,score);
+                List<Actor> actors=new ArrayList<Actor>();
+                ActorDAO actorDAO = new ActorDAO();
+                actors=actorDAO.getMovieActorsById(result.getInt(1));
+                Genre genre = null;
+                GenreDAO genreDAO = new GenreDAO();
+                genre = genreDAO.getMovieGenreById(result.getInt(1));
+                return new Movie(id,title,releaseDate,duration,score,genre,actors);
             }
             return null;
         }
@@ -152,8 +163,14 @@ public class MovieDAO {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
+                List<Actor> actors=new ArrayList<Actor>();
+                ActorDAO actorDAO = new ActorDAO();
+                actors=actorDAO.getMovieActorsById(resultSet.getInt(1));
+                Genre genre = null;
+                GenreDAO genreDAO = new GenreDAO();
+                genre = genreDAO.getMovieGenreById(resultSet.getInt(1));
                 movies.add(new Movie(resultSet.getInt(1), resultSet.getString(2),
-                        resultSet.getDate(3), resultSet.getInt(4), resultSet.getFloat(5)));
+                        resultSet.getDate(3), resultSet.getInt(4), resultSet.getFloat(5),genre,actors));
             }
         }
         return movies;

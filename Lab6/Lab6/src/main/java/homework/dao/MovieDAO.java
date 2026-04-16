@@ -41,11 +41,14 @@ public class MovieDAO {
             if(result.next()){
                 int id=result.getInt(1);
                 String title=result.getString(2);
-                var release_date=result.getDate(3);
+                var releaseDate=result.getDate(3);
                 int duration=result.getInt(4);
                 float score=result.getFloat(5);
-
-                return new Movie(id,title,release_date,duration,score);
+                ActorDAO actorDAO = new ActorDAO();
+                List<Actor> actors = actorDAO.getMovieActorsByTitle(title);
+                GenreDAO genreDAO = new GenreDAO();
+                Genre genre = genreDAO.getMovieGenreByTitle(title);
+                return new Movie(id,title,releaseDate,duration,score,genre,actors);
             }
             return null;
         }
@@ -62,8 +65,11 @@ public class MovieDAO {
                 var releaseDate=result.getDate(3);
                 int duration=result.getInt(4);
                 float score=result.getFloat(5);
-
-                return new Movie(id,title,releaseDate,duration,score);
+                ActorDAO actorDAO = new ActorDAO();
+                List<Actor> actors = actorDAO.getMovieActorsById(id);
+                GenreDAO genreDAO = new GenreDAO();
+                Genre genre = genreDAO.getMovieGenreById(id);
+                return new Movie(id,title,releaseDate,duration,score,genre,actors);
             }
             return null;
         }
