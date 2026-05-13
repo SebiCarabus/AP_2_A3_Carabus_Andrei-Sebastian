@@ -1,0 +1,4 @@
+Which is the capital of France?;Paris;Madrid;Bucharest;Vienne;1
+how much is 2+2?;3;1;4;9;3
+What color is the sky?;Red;Orange;Purple;Blue;4
+How should you try to always feel?;Sad;Happy;Depressed;Grumpy;2
